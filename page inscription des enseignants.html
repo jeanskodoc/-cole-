@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimum-scale=1.0, maximum-scale=3.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#667eea">
+    <title>Création de Compte Enseignant - Lycée Niamtougou</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="white" opacity="0.1"/><circle cx="80" cy="40" r="1.5" fill="white" opacity="0.1"/><circle cx="60" cy="80" r="1" fill="white" opacity="0.1"/><circle cx="40" cy="60" r="1.2" fill="white" opacity="0.1"/></svg>');
+        }
+
+        .school-info {
+            position: relative;
+            z-index: 2;
+            margin-bottom: 20px;
+        }
+
+        .school-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #fff, #f0f8ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .school-logo::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(79, 172, 254, 0.1), transparent);
+            animation: rotate 8s linear infinite;
+        }
+
+        .school-logo-text {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #4facfe;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        .school-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .school-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: 300;
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+
+        .form-content {
+            padding: 40px;
+        }
+
+        .form-section {
+            margin-bottom: 40px;
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 30px;
+            border-left: 5px solid #4facfe;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 25px;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            border-radius: 2px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .required {
+            color: #ff4757;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 12px 16px;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .password-strength {
+            margin-top: 5px;
+            font-size: 0.8rem;
+        }
+
+        .strength-weak { color: #ff4757; }
+        .strength-medium { color: #ffa502; }
+        .strength-strong { color: #2ed573; }
+
+        .password-requirements {
+            background: #f1f3f4;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.85rem;
+        }
+
+        .requirement {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 5px;
+        }
+
+        .requirement.met {
+            color: #2ed573;
+        }
+
+        .requirement.unmet {
+            color: #ff4757;
+        }
+
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-upload-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 16px;
+            border: 2px dashed #e1e8ed;
+            border-radius: 10px;
+            background: white;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .file-upload:hover .file-upload-label {
+            border-color: #4facfe;
+            background: #f8f9ff;
+        }
+
+        .file-preview {
+            margin-top: 10px;
+            padding: 10px;
+            background: #e8f5e8;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .terms-section {
+            background: #fff4e6;
+            border: 1px solid #ffcc02;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-top: 3px;
+            transform: scale(1.2);
+        }
+
+        .checkbox-group label {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .submit-section {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .login-link {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .login-link a {
+            color: #4facfe;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #2ed573, #17c0eb);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error-message {
+            background: linear-gradient(135deg, #ff4757, #ff3838);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 25px 20px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .form-content {
+                padding: 25px 20px;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-section {
+                padding: 20px 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                margin: 0;
+                border-radius: 12px;
+            }
+            
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .form-content {
+                padding: 20px 15px;
+            }
+            
+            .submit-btn {
+                width: 100%;
+                padding: 15px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="school-info">
+                <div class="school-logo">
+                    <div class="school-logo-text">LN</div>
+                </div>
+                <div class="school-name">Lycée Niamtougou</div>
+                <div class="school-subtitle">République Togolaise</div>
+            </div>
+            <h1>👨‍🏫 Création de Compte Enseignant</h1>
+            <p>Rejoignez le système de gestion des évaluations scolaires</p>
+        </div>
+
+        <div class="form-content">
+            <div class="success-message" id="successMessage">
+                <h3>✅ Compte créé avec succès !</h3>
+                <p>Votre demande a été transmise à l'administration. Vous recevrez un email de confirmation une fois votre compte validé.</p>
+            </div>
+
+            <div class="error-message" id="errorMessage"></div>
+
+            <form id="registrationForm" enctype="multipart/form-data">
+                <!-- Informations personnelles -->
+                <div class="form-section">
+                    <h2 class="section-title">👤 Informations personnelles</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="firstName">🏷️ Prénom <span class="required">*</span>:</label>
+                            <input type="text" id="firstName" name="firstName" required autocomplete="given-name">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">🏷️ Nom de famille <span class="required">*</span>:</label>
+                            <input type="text" id="lastName" name="lastName" required autocomplete="family-name">
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">⚥ Genre <span class="required">*</span>:</label>
+                            <select id="gender" name="gender" required>
+                                <option value="">Sélectionner</option>
+                                <option value="M">Monsieur</option>
+                                <option value="Mme">Madame</option>
+                                <option value="Mlle">Mademoiselle</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="birthDate">📅 Date de naissance <span class="required">*</span>:</label>
+                            <input type="date" id="birthDate" name="birthDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nationality">🌍 Nationalité <span class="required">*</span>:</label>
+                            <select id="nationality" name="nationality" required>
+                                <option value="">Sélectionner</option>
+                                <option value="togolaise">Togolaise</option>
+                                <option value="beninoise">Béninoise</option>
+                                <option value="burkinabe">Burkinabé</option>
+                                <option value="ghanéenne">Ghanéenne</option>
+                                <option value="ivoirienne">Ivoirienne</option>
+                                <option value="malienne">Malienne</option>
+                                <option value="nigerienne">Nigérienne</option>
+                                <option value="senegalaise">Sénégalaise</option>
+                                <option value="française">Française</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="idNumber">🆔 Numéro de carte d'identité <span class="required">*</span>:</label>
+                            <input type="text" id="idNumber" name="idNumber" required>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coordonnées -->
+                <div class="form-section">
+                    <h2 class="section-title">📞 Coordonnées</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="email">📧 Adresse email <span class="required">*</span>:</label>
+                            <input type="email" id="email" name="email" required autocomplete="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">📱 Téléphone <span class="required">*</span>:</label>
+                            <input type="tel" id="phone" name="phone" required autocomplete="tel" placeholder="+228 XX XX XX XX">
+                        </div>
+                        <div class="form-group">
+                            <label for="whatsapp">💬 WhatsApp:</label>
+                            <input type="tel" id="whatsapp" name="whatsapp" placeholder="+228 XX XX XX XX">
+                        </div>
+                        <div class="form-group">
+                            <label for="emergencyContact">🚨 Contact d'urgence:</label>
+                            <input type="tel" id="emergencyContact" name="emergencyContact" placeholder="+228 XX XX XX XX">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">🏠 Adresse complète <span class="required">*</span>:</label>
+                        <textarea id="address" name="address" rows="3" required placeholder="Quartier, rue, ville..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Informations professionnelles -->
+                <div class="form-section">
+                    <h2 class="section-title">🎓 Informations professionnelles</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="teacherNumber">🔢 Numéro d'enseignant (si disponible):</label>
+                            <input type="text" id="teacherNumber" name="teacherNumber" placeholder="Ex: ENS2024001">
+                        </div>
+                        <div class="form-group">
+                            <label for="qualification">🎯 Diplôme le plus élevé <span class="required">*</span>:</label>
+                            <select id="qualification" name="qualification" required>
+                                <option value="">Sélectionner</option>
+                                <option value="bac">Baccalauréat</option>
+                                <option value="bac+2">Bac+2 (BTS, DUT...)</option>
+                                <option value="licence">Licence (Bac+3)</option>
+                                <option value="master">Master (Bac+5)</option>
+                                <option value="doctorat">Doctorat (Bac+8)</option>
+                                <option value="autre">Autre</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="specialization">🎯 Spécialisation/Domaine d'étude <span class="required">*</span>:</label>
+                            <input type="text" id="specialization" name="specialization" required placeholder="Ex: Mathématiques, Lettres modernes...">
+                        </div>
+                        <div class="form-group">
+                            <label for="experience">⏱️ Années d'expérience dans l'enseignement <span class="required">*</span>:</label>
+                            <select id="experience" name="experience" required>
+                                <option value="">Sélectionner</option>
+                                <option value="0">Débutant (0 an)</option>
+                                <option value="1-2">1-2 ans</option>
+                                <option value="3-5">3-5 ans</option>
+                                <option value="6-10">6-10 ans</option>
+                                <option value="11-15">11-15 ans</option>
+                                <option value="16-20">16-20 ans</option>
+                                <option value="20+">Plus de 20 ans</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="subjects">📚 Matières que vous souhaitez enseigner <span class="required">*</span>:</label>
+                        <select id="subjects" name="subjects" multiple required size="6">
+                            <option value="francais">Français</option>
+                            <option value="mathematiques">Mathématiques</option>
+                            <option value="physique-chimie">Physique-Chimie</option>
+                            <option value="svt">Sciences de la Vie et de la Terre (SVT)</option>
+                            <option value="histoire-geographie">Histoire-Géographie</option>
+                            <option value="anglais">Anglais</option>
+                            <option value="allemand">Allemand</option>
+                            <option value="espagnol">Espagnol</option>
+                            <option value="philosophie">Philosophie</option>
+                            <option value="litterature">Littérature</option>
+                            <option value="ecm">Éducation Civique et Morale (ECM)</option>
+                            <option value="eps">Éducation Physique et Sportive (EPS)</option>
+                            <option value="informatique">Informatique</option>
+                            <option value="arts-plastiques">Arts Plastiques</option>
+                            <option value="musique">Musique</option>
+                            <option value="ewe">Éwé</option>
+                            <option value="kabye">Kabyè</option>
+                            <option value="mina">Mina</option>
+                        </select>
+                        <small style="color: #666; margin-top: 5px; display: block;">Maintenez Ctrl (ou Cmd sur Mac) pour sélectionner plusieurs matières</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="preferredLevels">🎯 Niveaux préférés d'enseignement <span class="required">*</span>:</label>
+                        <select id="preferredLevels" name="preferredLevels" multiple required size="4">
+                            <option value="college">Collège (6ème à 3ème)</option>
+                            <option value="seconde">Seconde</option>
+                            <option value="premiere">Première</option>
+                            <option value="terminale">Terminale</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Documents -->
+                <div class="form-section">
+                    <h2 class="section-title">📄 Documents requis</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="cv">📄 Curriculum Vitae <span class="required">*</span>:</label>
+                            <div class="file-upload">
+                                <input type="file" id="cv" name="cv" accept=".pdf,.doc,.docx" required>
+                                <div class="file-upload-label">
+                                    <span>📎</span>
+                                    <span>Choisir le fichier CV (PDF, DOC, DOCX)</span>
+                                </div>
+                            </div>
+                            <div class="file-preview" id="cvPreview"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="diploma">🎓 Copie du diplôme <span class="required">*</span>:</label>
+                            <div class="file-upload">
+                                <input type="file" id="diploma" name="diploma" accept=".pdf,.jpg,.jpeg,.png" required>
+                                <div class="file-upload-label">
+                                    <span>📜</span>
+                                    <span>Choisir le fichier diplôme (PDF, JPG, PNG)</span>
+                                </div>
+                            </div>
+                            <div class="file-preview" id="diplomaPreview"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="idCard">🆔 Copie de la carte d'identité <span class="required">*</span>:</label>
+                            <div class="file-upload">
+                                <input type="file" id="idCard" name="idCard" accept=".pdf,.jpg,.jpeg,.png" required>
+                                <div class="file-upload-label">
+                                    <span>🆔</span>
+                                    <span>Choisir le fichier CI (PDF, JPG, PNG)</span>
+                                </div>
+                            </div>
+                            <div class="file-preview" id="idCardPreview"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="photo">📸 Photo d'identité <span class="required">*</span>:</label>
+                            <div class="file-upload">
+                                <input type="file" id="photo" name="photo" accept=".jpg,.jpeg,.png" required>
+                                <div class="file-upload-label">
+                                    <span>📷</span>
+                                    <span>Choisir la photo (JPG, PNG)</span>
+                                </div>
+                            </div>
+                            <div class="file-preview" id="photoPreview"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Compte utilisateur -->
+                <div class="form-section">
+                    <h2 class="section-title">🔐 Informations de connexion</h2>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="username">👤 Nom d'utilisateur <span class="required">*</span>:</label>
+                            <input type="text" id="username" name="username" required autocomplete="username" placeholder="Ex: j.dupont ou jean.dupont">
+                            <small style="color: #666; margin-top: 5px; display: block;">Utilisez des lettres, chiffres, points et tirets uniquement</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">🔒 Mot de passe <span class="required">*</span>:</label>
+                            <input type="password" id="password" name="password" required autocomplete="new-password">
+                            <div class="password-strength" id="passwordStrength"></div>
+                            <div class="password-requirements">
+                                <div class="requirement unmet" id="req-length">
+                                    <span>❌</span> Au moins 8 caractères
+                                </div>
+                                <div class="requirement unmet" id="req-uppercase">
+                                    <span>❌</span> Une lettre majuscule
+                                </div>
+                                <div class="requirement unmet" id="req-lowercase">
+                                    <span>❌</span> Une lettre minuscule
+                                </div>
+                                <div class="requirement unmet" id="req-number">
+                                    <span>❌</span> Un chiffre
+                                </div>
+                                <div class="requirement unmet" id="req-special">
+                                    <span>❌</span> Un caractère spécial (@$!%*?&)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">🔒 Confirmer le mot de passe <span class="required">*</span>:</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" required autocomplete="new-password">
+                            <div id="passwordMatch" style="margin-top: 5px; font-size: 0.8rem;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Termes et conditions -->
+                <div class="terms-section">
+                    <h3>📋 Termes et Conditions</h3>
+                    <p>En créant votre compte, vous acceptez :</p>
+                    <ul style="margin: 10px 0 10px 20px;">
+                        <li>De respecter le règlement intérieur de l'établissement</li>
+                        <li>D'utiliser le système uniquement à des fins pédagogiques</li>
+                        <li>De maintenir la confidentialité de vos identifiants</li>
+                        <li>De respecter la vie privée des élèves</li>
+                    </ul>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
+                        <label for="agreeTerms">
+                            J'accepte les termes et conditions d'utilisation du système <span class="required">*</span>
+                        </label>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="agreeData" name="agreeData" required>
+                        <label for="agreeData">
+                            J'autorise le traitement de mes données
